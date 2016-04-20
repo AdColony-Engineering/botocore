@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "waiters": {
+    "DomainCreatedAndNotProcessing": {
+      "delay": 30,
+      "maxAttempts": 30,
+      "operation": "DescribeElasticsearchDomain",
+      "acceptors": [
+        {
+          "matcher": "path",
+          "expected": true,
+          "argument": "DomainStatus.Created && !(DomainStatus.Deleted) && !(DomainStatus.Processing)",
+          "state": "success"
+        },
+        {
+          "matcher": "path",
+          "expected": true,
+          "argument": "DomainStatus.Deleted",
+          "state": "failure"
+        }
+      ]
+    }
+  }
+}
